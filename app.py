@@ -11,12 +11,7 @@ firebase_admin.initialize_app(cred, {
 })
 
 root = db.reference()
-# Add a new user under /users.
-new_user = root.child('users').push({
-    'name' : 'Mary Anning', 
-    'since' : 1700
-})
-print(new_user)
+print(root.child('users').get())
 
 app = Flask(__name__)
 ACCESS_TOKEN = 'EAAIY9ZCGG5P8BANNpChCn9QEnZCqgmZCod9Ru6aVl3eHsyFLLMoq7tSa7ZBAGEafuNy6ddnYt4QY15aMFhztzxPtro4vPeWWGHgxhM4SzBtMn7YBPqV2ski842KQlHLT2hkM4DB4AScUBBc5TyEqVqIlUEzpWy0WqWxmZAoTkpNov3ly9qLYZC'
