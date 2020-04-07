@@ -1,26 +1,36 @@
 import firebase_admin
 from firebase_admin import credentials
-from firebase_admin import db
+from firebase_admin import firestore
+#from firebase_admin import db
+#from google.cloud import firestore
 import random
 from flask import Flask, request
 from pymessenger.bot import Bot
 
-cred = credentials.Certificate('./lynbrook-high-school-credentials.json')
-firebase_admin.initialize_app(cred, {
-    'databaseURL' : 'https://lynbrook-high-school.firebaseio.com'
-})
+def connectToDB():
+    cred = credentials.Certificate('./lynbrook-high-school-credentials.json')
+    firebase_admin.initialize_app(cred, {
+         'databaseURL' : 'https://lynbrook-high-school.firebaseio.com'
+    })
 
-root = db.reference()
-print(root.child('users').get())
+    db = firestore.client()
+
+    cols = db.collections()
+    list_col = []
+    for col in cols:
+        list_col.append(col.id)
+    print(list_col)
+    return db
 
 app = Flask(__name__)
 ACCESS_TOKEN = 'EAAIY9ZCGG5P8BANNpChCn9QEnZCqgmZCod9Ru6aVl3eHsyFLLMoq7tSa7ZBAGEafuNy6ddnYt4QY15aMFhztzxPtro4vPeWWGHgxhM4SzBtMn7YBPqV2ski842KQlHLT2hkM4DB4AScUBBc5TyEqVqIlUEzpWy0WqWxmZAoTkpNov3ly9qLYZC'
 VERIFY_TOKEN = 'SMART_ML_BOT'
 bot = Bot(ACCESS_TOKEN)
+dbRef = connectToDB()
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
-def receive_message():
+def receive_message(): 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
         that confirms all requests that your bot receives came from Facebook.""" 
