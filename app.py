@@ -6,6 +6,7 @@ from firebase_admin import firestore
 import random
 from flask import Flask, request
 from pymessenger.bot import Bot
+from src.python.main.core import get_message
 
 def connectToDB():
     cred = credentials.Certificate('./lynbrook-high-school-credentials.json')
@@ -63,12 +64,6 @@ def verify_fb_token(token_sent):
         return request.args.get("hub.challenge")
     return 'Invalid verification token'
 
-
-#chooses a random message to send to the user
-def get_message():
-    sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
-    # return selected item to the user
-    return random.choice(sample_responses)
 
 #uses PyMessenger to send response to user
 def send_message(recipient_id, response):
