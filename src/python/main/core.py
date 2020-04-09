@@ -1,7 +1,9 @@
 import random
 
 #chooses a random message to send to the user
-def get_message():
-    sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
-    # return selected item to the user
-    return random.choice(sample_responses)
+def get_message(db, userId, text):
+    announcements = db.collection(u'announcements')
+    docs = announcements.where(u'title', u'==', u'Robotics First Meeting').stream()
+    for doc in docs:
+        print(u'{} => {}'.format(doc.id, doc.to_dict()))
+    return "Message received"
