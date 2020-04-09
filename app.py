@@ -15,12 +15,6 @@ def connectToDB():
     })
 
     db = firestore.client()
-
-    cols = db.collections()
-    list_col = []
-    for col in cols:
-        list_col.append(col.id)
-    print(list_col)
     return db
 
 app = Flask(__name__)
