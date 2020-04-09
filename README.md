@@ -12,5 +12,3 @@ Currently, we have added the basic connections of the bot, including connections
 ## Instructions for testing database functions
 
 To avoid the need to communicate orders through the messenger interface, we can instead directly test functions manipulating firebase by running ```export FLASK_APP=test_utils.py``` and then ```flask shell```. Afterwards, one would be able to import any python files from within the ```src.python.main.functions``` directory with little issues. 
-
-Please note that ```test_utils#connectToTestDB()``` will not work if another terminal is open running another connection to the database, since we are using the same private credentials to connect to the database (we can of course generate another private key, but that is not recommended). 
