@@ -1,29 +1,17 @@
 # %% [code] {"_kg_hide-input":false}
 import pandas as pd
 
-# Matplot
-import matplotlib.pyplot as plt
-%matplotlib inline
-
-# Scikit-learn
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
-from sklearn.manifold import TSNE
-from sklearn.feature_extraction.text import TfidfVectorizer
-
 # Keras
-from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
-from keras.models import Sequential
-from keras.layers import Activation, Dense, Dropout, Embedding, Flatten, Conv1D, MaxPooling1D, LSTM
-from keras import utils
-from keras.callbacks import ReduceLROnPlateau, EarlyStopping
+from keras.models import load_model
 
 # nltk
 import nltk
 from nltk.corpus import stopwords
 from  nltk.stem import SnowballStemmer
+from nltk.chunk.regexp import ChunkString, ChunkRule, ChinkRule 
+from nltk.tree import Tree 
+from nltk.chunk import RegexpChunkParser 
 
 # Word2vec
 import gensim
@@ -38,6 +26,27 @@ from collections import Counter
 import logging
 import time
 import pickle
+import argparse
+
+# Create the parser
+my_parser = argparse.ArgumentParser(description='List the gensim model, prediction model, and tokenizer')
+
+# Add the arguments
+my_parser.add_argument('SentimentGensim',
+                       metavar='path',
+                       type=str,
+                       help='the path to list')
+my_parser.add_argument('SentimentPredictor',
+                       metavar='path',
+                       type=str,
+                       help='the path to list')
+my_parser.add_argument('SentimentTokenizer',
+                       metavar='path',
+                       type=str,
+                       help='the path to list')
+
+# Execute the parse_args() method
+args = my_parser.parse_args()
 
 
 # As of Gensim 3.7.3 it's using some deprecated function and we don't care about it
@@ -70,7 +79,7 @@ NEUTRAL = "NEUTRAL"
 SENTIMENT_THRESHOLDS = (0.4, 0.7)
 
 # %% [code] {"_kg_hide-input":false}
-model = KeyedVectors.load("/kaggle/input/gensim-embeddings-dataset/glove.twitter.27B.200d.gensim")
+model = KeyedVectors.load(args.SentimentGensim)
 
 # %% [code]
 def most_similar_list(s, l):
@@ -112,9 +121,9 @@ class NLPPipeline():
         self.past_texts = FixedQueue(3)
         self.users = user
         self.channels = channel
-        with open("/kaggle/input/sentimentanalysis/tokenizer.pkl", 'rb') as f:
+        with open(args.SentimentTokenizer, 'rb') as f:
             self.tokenizer = pickle.load(f)
-            self.model = load_model("/kaggle/input/sentimentanalysis/model.h5")
+            self.model = load_model(args.SentimentPredictor)
         
     def process_text(self, text):
         previous_sentiment_value = self.__processPrevSentiment() # type: int context: value representing weighted average of previous sentiment values
