@@ -12,3 +12,7 @@ Currently, we have added the basic connections of the bot, including connections
 ## Instructions for testing database functions
 
 To avoid the need to communicate orders through the messenger interface, we can instead directly test functions manipulating firebase by running ```export FLASK_APP=test_utils.py``` and then ```flask shell```. Afterwards, one would be able to import any python files from within the ```src.python.main.functions``` directory with little issues. 
+
+## Caution with running ```chatbot.py```
+
+As of right now, ```chatbot.py``` relies on Keras model files stored on a Kaggle account. The app will not run unless the model files are downloaded and the filepaths for the aformentioned model files are changed. These files will be uploaded later.
