@@ -4,7 +4,7 @@ from firebase_admin import firestore
 from flask import Flask, request
 
 def connectToTestDB():
-    cred = credentials.Certificate('./src/python/test/lynbrook-high-school-test-credentials.json')
+    cred = credentials.Certificate('./lynbrook-high-school-test-credentials.json')
     firebase_admin.initialize_app(cred, {
          'databaseURL' : 'https://lynbrook-high-school.firebaseio.com'
     })
@@ -17,4 +17,4 @@ def connectToTestDB():
 app = Flask(__name__)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='1.0.0.0', port=7280)
