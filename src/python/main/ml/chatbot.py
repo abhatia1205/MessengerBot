@@ -35,15 +35,15 @@ my_parser = argparse.ArgumentParser(description='List the gensim model, predicti
 my_parser.add_argument('SentimentGensim',
                        metavar='path',
                        type=str,
-                       help='the path to list')
+                       help='the path to Gensim Twitter Sentiment Analysis Encoder. Should be a .gensim file')
 my_parser.add_argument('SentimentPredictor',
                        metavar='path',
                        type=str,
-                       help='the path to list')
+                       help='the path to Sentiment Analysis prediction model. Should be a .h5 file.')
 my_parser.add_argument('SentimentTokenizer',
                        metavar='path',
                        type=str,
-                       help='the path to list')
+                       help='the path to Sentiment Analysis Tokenizer. Should be a .pkl file.')
 
 # Execute the parse_args() method
 args = my_parser.parse_args()
