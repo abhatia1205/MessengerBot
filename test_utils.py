@@ -14,6 +14,11 @@ def connectToTestDB():
     print("Database connected")
     return db
 
+def getDocumentReference(globalDb, authorName):
+    authorRef = globalDb.collection(u'authors').document(authorName)
+    for doc in globalDb.collection(u'announcements').where(u'from', u'==', authorRef).stream():
+        print(doc)
+    
 app = Flask(__name__)
 
 if __name__ == "__main__":
