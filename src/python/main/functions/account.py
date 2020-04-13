@@ -15,16 +15,19 @@ class account:
 	self.localDb = db
         self.userRef = getDocRef(userId)
 	if self.userRef == None:
-	    userInfo = {'userId': userId, 'googleAccount': 'not_set'}
+	    userInfo = {'userId': userId, 'googleAccount': 'not_set', 'subscribed': []}
             self.userRef = self.localDb.collection('facebookUsers').create(userInfo)
 
     def connectToGoogleAccount(self, email):
         passAuthentication(email, userId)
         self.userRef.set({'googleAccount': email})
 
+    def getAuthorRef(self, author):
+        for doc in localDb.collection('authors').where('author', u'==', author).stream():
+            return doc.reference
+        return None
+
     def subscribe(self, author):
-	userSnapshot = self.userRef.get().to_dict()
-        if userSnapshot['account'] != 'not_set':
-            
-	 
-        	
+        authorRef = getAuthorRef(author)
+        currentList = userRef.get().to_dict()['subscribed']
+        authoRef.set({'subscribed': currentList + List(authorRef)}, merge=True)
