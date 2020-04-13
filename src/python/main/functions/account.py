@@ -1,3 +1,5 @@
+import utils as ut
+
 class account:
     localDb = None
     userRef = None
@@ -6,18 +8,13 @@ class account:
     def passAuthentication(self, email):
 	""" Do something here"""
 
-    def getDocRef(self, userId):
-	for doc in localDb.collection('facebookUsers').where('userId', u'==', userId).stream():
-	    return doc.reference
-        return None
-
     def __init__(self, db, userId):
 	self.localDb = db
-        self.userRef = getDocRef(userId)
+        self.userRef = ut.get_ref(db, 'announcements', 'userId', userId)
 	if self.userRef == None:
 	    userInfo = {'userId': userId, 'googleAccount': 'not_set', 'subscribed': []}
-            self.userRef = self.localDb.collection('facebookUsers').create(userInfo)
-
+            self.userRef = ut.createDoc(db, col, userInfo)
+ 
     def connectToGoogleAccount(self, email):
         passAuthentication(email, userId)
         self.userRef.set({'googleAccount': email})
